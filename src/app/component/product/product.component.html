@@ -1,0 +1,32 @@
+<div class="spinner-border" role="status" *ngIf="apiLoading==false">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <div class="mb-3">
+    <label for="filterText" class="form-label">Ürün Ara</label>
+    <input type="text" [(ngModel)]="filterText" class="form-control" id="filterText"
+     placeholder="Arama ifadesi giriniz">
+  </div>  
+  <div *ngIf="filterText.length>2" class="alert alert-success">
+    {{filterText}} aradınız
+  </div>
+<table class = "table">
+    <thead>
+        <th>Product ID</th>
+        <th>Categoy ID</th>
+        <th>Product Name</th>
+        <th>Unit Price</th>
+        <th> Kdv'li Price</th>
+        <th>Unit In Stock</th>
+    </thead>
+    <tbody>
+    <tr *ngFor="let product of products |filterPipe:filterText" >
+        <td>{{product.productId}}</td>
+        <td>{{product.categoryId}}</td>
+        <td>{{product.productName | uppercase}}</td>
+        <td>{{product.unitPrice | currency}}</td>
+        <td>{{product.unitPrice | vatAdded:10 | currency}}</td>
+        <td>{{product.unitsInStock}}</td>
+        <td><button class="btn btn-success" (click)="addToCat(product)">Sepete Ekle</button></td>
+    </tr>
+  </tbody>
+</table>
